@@ -1,17 +1,18 @@
 #include "test.h"
+#include <algorithm>
 
 //Given a string, find the length of the longest substring without repeating characters.
 int maxx(const int& a, const int& b)
 {
 	if (a <= b)
 		return b;
-	else 
+	else
 		return a;
 }
 std::pair<int, int> foo(int a, int b) {
 	return std::make_pair(a + b, a - b);
 }
-std::pair<std::string, int> fun(const std::string & data)
+std::pair<std::string, int> fun(const std::string& data)
 {
 	// case 0 and case 1 to take into account
 	if (data.size() <= 1)
@@ -19,7 +20,7 @@ std::pair<std::string, int> fun(const std::string & data)
 	//int intres = 0;
 	std::string res_memor;
 	int i = 0;
-	while(i < data.size())
+	while (i < data.size())
 	{
 		std::set<char> memor;
 		int intcurr(0);
@@ -38,9 +39,9 @@ std::pair<std::string, int> fun(const std::string & data)
 	return std::make_pair(res_memor, res_memor.size());
 }
 
-/*Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). 
-n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). 
-Find two lines, which together with x-axis forms a container, such that the container contains the most water. 
+/*Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai).
+n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0).
+Find two lines, which together with x-axis forms a container, such that the container contains the most water.
 Note: You may not slant the container and n is at least 2.*/
 int min(int a, int b)
 {
@@ -100,7 +101,7 @@ std::vector<int> mergeSort(const std::vector<int>& data)
 	if (data.size() >= 2)
 	{
 		int nb = data.size();
-		std::vector<int> tmpLow(data.begin(), data.begin() + nb/2);
+		std::vector<int> tmpLow(data.begin(), data.begin() + nb / 2);
 		std::vector<int> tmpUp(data.begin() + nb / 2, data.end());
 		return mergeConcatenate(mergeSort(tmpLow), mergeSort(tmpUp));
 	}
@@ -123,8 +124,8 @@ int maxSumSubArray(const std::vector<int>& data)
 	}
 	return currentMax;
 }
-/*Écrire une fonction C++ qui à partir d’un tableau d’entier data et d’un entier K 
-sort le nombre de pair tel que la somme des deux nombres vaut K. 
+/*Écrire une fonction C++ qui à partir d’un tableau d’entier data et d’un entier K
+sort le nombre de pair tel que la somme des deux nombres vaut K.
 
 data = [0, 6, -1, 3, 2, 3, 4, 1]
 k = 3.
@@ -137,7 +138,7 @@ O(NxLog(N)) opérations
 O(N) en physique. */
 int exoNatixis(std::vector<int> data, const int& K)
 {
-	std::map<size_t,int> storageData;
+	std::map<size_t, int> storageData;
 
 	for (size_t i = 0; i < data.size(); ++i)
 	{
@@ -151,6 +152,60 @@ int exoNatixis(std::vector<int> data, const int& K)
 		{
 			++res;
 			data.erase(data.begin() + complementary->second);
+		}
+	}
+	return res;
+}
+std::vector<int>
+twoSum(std::vector<int>& data, const int& target)
+{
+	// ***** data must be sorted
+	// the function returns the pair that sums up to target with the minimum value
+	int up = data.size() - 1;
+	int down = 0;
+	while (up > down && data[down] + data[up] != target)
+	{
+		if (data[down] + data[up] > target)
+			up--;
+		if (data[down] + data[up] < target)
+			down++;
+	}
+	if (up > down)
+	{
+		std::vector<int> res = { down, up };
+		return res;
+	}
+	else
+		return std::vector<int>();
+}
+////
+std::vector<std::vector<int>>
+threeSum(std::vector<int>& data)
+{
+	//Leetcode 15
+	/*Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0?
+	Find all unique triplets in the array which gives the sum of zero.
+	Notice that the solution set must not contain duplicate triplets
+	*/
+	std::sort(data.begin(), data.end());
+	std::vector<std::vector<int>> res;
+	//auto it = data.begin();
+	//for (; it != data.end(); ++it)
+	for (int i = 0; i < data.size(); ++i)
+	{
+		//std::vector<int> tmpRes = twoSum(data, -(*it));
+		std::vector<int> tmpRes = twoSum(data, -data[i]);
+		if (tmpRes.size() != 0)
+		{
+			//std::vector<int> tmpTmpRes = { *it,data[tmpRes[0]], data[tmpRes[1]] };
+			std::vector<int> tmpTmpRes = { data[i],data[tmpRes[0]], data[tmpRes[1]] };
+			res.push_back(tmpTmpRes);
+			//data.erase(it);
+			data.erase(data.begin() + i);
+			if (tmpRes[0] - 1 > 0)
+				data.erase(data.begin() + tmpRes[0] - 1);
+			if (tmpRes[1] - 2 > 0)
+				data.erase(data.begin() + tmpRes[1] - 2);
 		}
 	}
 	return res;

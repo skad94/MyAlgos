@@ -6,29 +6,30 @@
 #include <iostream>
 #include <fstream>
 #pragma once
-class LoggerFile : public ILogger
-{
-	static std::string fileName;
-	std::string m_name;
-public: 
-	  LoggerFile(const std::string& name);
-	  LoggerFile();
-	  ~LoggerFile();
-	  void logFile(const std::string& txt);
-	  void log(const std::string& txt);
-};
-class LoggerScreen : public ILogger
-{
-public: 
-void logScreen(const std::string& txt);
-void log(const std::string& txt);
-};
-
 class ILogger
 {
 public:
 	virtual void log(const std::string& txt) = 0;
 };
+
+class LoggerFile : public ILogger
+{
+	static std::string fileName;
+	std::string m_name;
+public:
+	LoggerFile(const std::string& name);
+	LoggerFile();
+	~LoggerFile();
+	void logFile(const std::string& txt);
+	void log(const std::string& txt);
+};
+class LoggerScreen : public ILogger
+{
+public:
+	void logScreen(const std::string& txt);
+	void log(const std::string& txt);
+};
+
 
 // Composite class
 class LoggerComposite //: public ILogger
@@ -45,4 +46,7 @@ std::vector<int> mergeConcatenate(const std::vector<int>& a, const std::vector<i
 std::vector<int> mergeSort(const std::vector<int>& data);
 int maxSumSubArray(const std::vector<int>& data);
 int exoNatixis(std::vector<int>data, const int& K);
+std::vector<int> twoSum(std::vector<int>& data, const int& target);
+std::vector<std::vector<int>> threeSum(std::vector<int>& nums);
+
 
