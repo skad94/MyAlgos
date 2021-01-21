@@ -210,6 +210,39 @@ threeSum(std::vector<int>& data)
 	}
 	return res;
 }
+
+int 
+divide(int dividend, int divisor)
+{
+	/*Given two integers dividend and divisor, divide two integers without using multiplication, division,
+ and mod operator. Return the quotient after dividing dividend by divisor.
+ The integer division should truncate toward zero, which means losing its fractional part. 
+ For example, truncate(8.345) = 8 and truncate(-2.7335) = -2.*/
+	if dividend < divisor
+		return 0;
+	else
+	{
+		int remain = divisor + 1;
+		int quotient = 0;
+		while (remain > divisor)
+		{
+			remain -= divisor;
+			quotient++;
+		}
+		return quotient;
+		//while (remain >= divisor || remain < 0 )
+		//{
+		//	remain = dividend - quotient * divisor;
+		//	if remain >= divisor
+		//		quotient /= 2;
+		//	if remain < 0
+
+		//}
+
+	}
+}
+
+
 /*Given an array of integers data sorted in ascending order, find the starting and ending position of a given target value.
 Your algorithm's runtime complexity must be in the order of O(log n).
 If the target is not found in the array, return [-1, -1].
@@ -284,4 +317,114 @@ void LoggerComposite::log(const std::string& txt)
 	{
 		logo->log(txt);
 	}
+}
+
+bool
+isSubset(const std::vector<int>& nums, const int& target)
+{
+	if (nums.size() == 1)
+	{
+		//targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)] = (nums[0] == target);
+		return (nums[0] == target);
+	}
+	else
+		if (*(nums.end() - 1) == target)
+		{
+			//targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)] = true;
+			return true;
+		}
+		else
+		{
+			std::vector<int> newNums(nums.begin(), nums.end() - 1);
+			auto b1 = isSubset(newNums, target - nums[nums.size() - 1]);
+			auto b2 = isSubset(newNums, target);
+			return (b1 || b2);
+		}
+}
+bool
+findSubsetAddsUp(const std::vector<int>& nums, const int& target)
+{
+	// find subset of number that adds up to target
+	return isSubset(nums, target);
+}
+
+//bool
+//isSubsetMem(const std::vector<int>& nums, const int& target, std::map<string, bool>& targetAndOperation)
+//{
+//	if (targetAndOperation.find(std::to_string(nums.size()) + "-" + std::to_string(target)) != targetAndOperation.end())
+//		return targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)];
+//
+//	if (nums.size() == 1)
+//	{
+//		std::string sizePlusTarget = std::to_string(nums.size()) + "-" + std::to_string(target);
+//		targetAndOperation[sizePlusTarget] = (nums[0] == target);
+//		return (nums[0] == target);
+//	}
+//	else
+//		if (*(nums.end() - 1) == target)
+//		{
+//			targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)] = true;
+//			return true;
+//		}
+//		else
+//		{
+//			std::vector<int> newNums(nums.begin(), nums.end() - 1);
+//			if (!(targetAndOperation.find(std::to_string(nums.size()) + "-" + std::to_string(target)) != targetAndOperation.end()))
+//			{
+//				bool b1 = isSubsetMem(newNums, target - nums[nums.size() - 1], targetAndOperation);
+//				targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target - nums[nums.size() - 1])] = b1;
+//			}
+//			if (!(targetAndOperation.find(std::to_string(nums.size()) + "-" + std::to_string(target)) != targetAndOperation.end()))
+//			{
+//				bool b2 = isSubsetMem(newNums, target, targetAndOperation);
+//				targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target)] = b2;
+//			}
+//			return (targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target - nums[nums.size() - 1])]
+//				|| targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target)]);
+//		}
+//}
+bool
+isSubsetMem(const std::vector<int>& nums, const int& target, std::map<string, bool>& targetAndOperation)//, std::string& Operation)
+{
+	if (targetAndOperation.find(std::to_string(target)) != targetAndOperation.end())
+		return targetAndOperation[std::to_string(target)];
+
+	if (nums.size() == 1)
+	{
+		std::string sizePlusTarget = std::to_string(target);
+		targetAndOperation[sizePlusTarget] = (nums[0] == target);
+		return (nums[0] == target);
+	}
+	else
+		if (*(nums.end() - 1) == target)
+		{
+			targetAndOperation[std::to_string(target)] = true;
+			return true;
+		}
+		else
+		{
+			std::vector<int> newNums(nums.begin(), nums.end() - 1);
+			if (!(targetAndOperation.find(std::to_string(target)) != targetAndOperation.end()))
+			{
+				bool b1 = isSubsetMem(newNums, target - nums[nums.size() - 1], targetAndOperation);
+				targetAndOperation[std::to_string(target - nums[nums.size() - 1])] = b1;
+			}
+			if (!(targetAndOperation.find(std::to_string(target)) != targetAndOperation.end()))
+			{
+				bool b2 = isSubsetMem(newNums, target, targetAndOperation);
+				targetAndOperation[std::to_string(target)] = b2;
+			}
+			return (targetAndOperation[std::to_string(target - nums[nums.size() - 1])]
+				|| targetAndOperation[std::to_string(target)]);
+		}
+}
+
+
+
+bool
+findSubsetAddsUpMem(const std::vector<int>& nums, const int& target)
+{
+	// find subset of number that adds up to target
+	std::map<string, bool> resultMem;
+	return isSubsetMem(nums, target, resultMem);
 }
