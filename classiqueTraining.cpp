@@ -1,4 +1,3 @@
-
 // classiqueTraining.cpp : This file contains the 'main' function. Program execution begins and ends there.
 #include"test.h"
 #include "..\simulation\Simulation.h"
@@ -84,60 +83,50 @@ cycleDetector(const std::vector<int>& data)
 
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
     {
-        // Leetcode 21
-        //Merge two sorted linked lists and return it as a sorted list. 
-        //The list should be made by splicing together the nodes of the first two lists
-        // (ham-)merger two list that are already sorted
+    // (ham-)merger two list that are already sorted
         if (l1 == 0)
             return l2;
         if (l2 == 0)
             return l1;
-        bool isL1SmallerThanL2 = true;
-        int start = 0;
         ListNode* tmp;
-        ListNode* tmp1 = l1;
-        ListNode* tmp2 = l2;
-        if (l1->val > l2->val)
-            isL1SmallerThanL2 = false;
-        if (isL1SmallerThanL2)
+        if (l1->val >= l2->val)
         {
-            tmp = tmp1;
-            tmp1 = tmp->next;
+            tmp = l1;
+            l1 = l1->next;
         }
         else
         {
-            tmp = tmp2;
-            tmp2 = tmp2->next;
+            tmp = l2;
+            l2 = l2->next;
         }
         ListNode* res = tmp;
         /*if
             si la taille est 1 on ne peux plus
         */
-        while (tmp1 != 0 && tmp2!=0)
+        while (l1 != 0 && l2 != 0)
         {
-            if (tmp1->val > tmp2->val)
+            if (l1->val > l2->val)
             {
-                tmp->next = tmp2;
+                tmp->next = l2;
                 tmp = tmp->next;
-                tmp2 = tmp2->next;
+                l2 = l2->next;
             }
             else
             {
-                tmp->next = tmp1;
+                tmp->next = l1;
                 tmp = tmp->next;
-                tmp1 = tmp1->next;
+                l1 = l1->next;
             }
         }
-        if (!tmp1)
+        if (!l1)
         {
-            tmp->next = tmp2;
+            tmp->next = l2;
         }
-        else if (!tmp2)
-            tmp->next = tmp1;
+        else if (!l2)
+            tmp->next = l1;
         else
         {
             std::cout << " returné 0 " << std::endl;
-            delete(tmp);
             return 0;
         }
         return res;
