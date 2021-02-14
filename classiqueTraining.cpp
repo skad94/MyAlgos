@@ -81,56 +81,106 @@ cycleDetector(const std::vector<int>& data)
   };
  
 
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
-    {
-    // (ham-)merger two list that are already sorted
-        if (l1 == 0)
-            return l2;
-        if (l2 == 0)
-            return l1;
-        ListNode* tmp;
-        if (l1->val >= l2->val)
-        {
-            tmp = l1;
-            l1 = l1->next;
-        }
-        else
-        {
-            tmp = l2;
-            l2 = l2->next;
-        }
-        ListNode* res = tmp;
-        /*if
-            si la taille est 1 on ne peux plus
-        */
-        while (l1 != 0 && l2 != 0)
-        {
-            if (l1->val > l2->val)
-            {
-                tmp->next = l2;
-                tmp = tmp->next;
-                l2 = l2->next;
-            }
-            else
-            {
-                tmp->next = l1;
-                tmp = tmp->next;
-                l1 = l1->next;
-            }
-        }
-        if (!l1)
-        {
-            tmp->next = l2;
-        }
-        else if (!l2)
-            tmp->next = l1;
-        else
-        {
-            std::cout << " returné 0 " << std::endl;
-            return 0;
-        }
-        return res;
-    }
+  ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
+  {
+      // (ham-)merger two list that are already sorted
+      if (l1 == 0)
+          return l2;
+      if (l2 == 0)
+          return l1;
+      ListNode* tmp;
+      if (l1->val >= l2->val)
+      {
+          tmp = l1;
+          l1 = l1->next;
+      }
+      else
+      {
+          tmp = l2;
+          l2 = l2->next;
+      }
+      ListNode* res = tmp;
+      /*if
+          si la taille est 1 on ne peux plus
+      */
+      while (l1 != 0 && l2 != 0)
+      {
+          if (l1->val > l2->val)
+          {
+              tmp->next = l2;
+              tmp = tmp->next;
+              l2 = l2->next;
+          }
+          else
+          {
+              tmp->next = l1;
+              tmp = tmp->next;
+              l1 = l1->next;
+          }
+      }
+      if (!l1)
+      {
+          tmp->next = l2;
+      }
+      else if (!l2)
+          tmp->next = l1;
+      else
+      {
+          std::cout << " returné 0 " << std::endl;
+          return 0;
+      }
+      return res;
+  }
+  ListNode* reverseLists(ListNode* data)
+  {
+      ListNode* tmpStart = data;
+      //if only one node return same
+      if (!data->next)
+      {
+          return data;
+      }
+      //if two nodes return almost same
+      // just change the head and the way "arrow"
+      if (!data->next->next)
+      {
+          ListNode* res = data->next;
+          res->next = data;
+          return res;
+      }
+      while (tmpStart->next->next)
+      {
+          tmpStart = tmpStart->next;
+      }
+      ListNode* res = tmpStart->next;
+      ListNode* tmpEnd = res;
+      tmpStart->next = 0;
+      tmpStart = data;
+      while (tmpEnd != data)
+      {
+          if (tmpStart->next)
+          {
+              while (tmpStart->next->next)
+              {
+                  tmpStart = tmpStart->next;
+              }
+              tmpEnd->next = tmpStart->next;
+              tmpEnd = tmpEnd->next;
+              tmpStart->next = 0;
+              tmpStart = data;
+          }
+          else
+          {
+              // almost done 
+              // Just need to take care of the former head
+              tmpEnd->next = tmpStart;
+              tmpEnd = tmpEnd->next;
+              tmpStart->next = 0;
+          }
+      }
+
+      return res;
+  }
+
 //std::vector<std::vector<int>> allSubset(const std::vector<int>& data)
 //{
 //    //from a set of non duplicate integer
@@ -142,13 +192,7 @@ cycleDetector(const std::vector<int>& data)
 //    }
 //}
 int main()
-{/*
-    struct ListNode
-    {
-        int val;
-        ListNode* next;
-        ListNode(int x) : val(x), next(NULL) {}
-    };*/
+{
     ListNode r1(1);
     ListNode r2(4);
     ListNode r3(6);
@@ -167,7 +211,7 @@ int main()
 
     ListNode* data;
 
-    data = mergeTwoLists(&r1, &r5);
+    data = reverseLists(&r1);
     int u = 94;
 
     /* std::vector<int> data = { 2,1,9,8,5,4,6,7,3 };
@@ -211,8 +255,6 @@ int main()
     std::vector<double> b = a.Simul_Brownian(50);
     std::vector<double> z2 = a.BS_Simul_milstein(50,b);
     std::vector<double> z22 = a.BS_Simul_milstein(19,b);
-    const std::string nomFichier("C:\\Users\\Skad\\dev\\output\\test.txt");
-    std::ofstream monFlux(nomFichier.c_str());
     */
 
 
