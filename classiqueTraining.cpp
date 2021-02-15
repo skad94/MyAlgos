@@ -180,7 +180,39 @@ cycleDetector(const std::vector<int>& data)
 
       return res;
   }
-
+  ListNode* swapPairsLists(ListNode* data)
+  {
+      // swap pairs of list 
+      // if size 1 or 0 rien a faire
+      ListNode* tmpFirst = data;
+      if (!tmpFirst)// !data->next)
+          return data;
+      ListNode* tmpSecond = data->next;
+      if (!tmpSecond)
+          return data;
+      ListNode* tmpThird = tmpSecond->next;
+      //swap 1 and 2
+      tmpFirst->next = tmpThird;
+      tmpSecond->next = tmpFirst;
+      ListNode* res = tmpSecond;
+      if (!tmpThird)
+          return res;
+      while (tmpThird)
+      {
+          if (!tmpThird->next)
+              return res;
+          //first put the first point to the right place
+          tmpFirst->next = tmpThird->next;
+          // Now update 1,2 et 3
+          tmpFirst = tmpThird;
+          tmpSecond = tmpThird->next;
+          tmpThird = tmpSecond->next;
+          //swap 1 and 2
+          tmpFirst->next = tmpThird;
+          tmpSecond->next = tmpFirst;
+      }
+      return res;
+  }
 //std::vector<std::vector<int>> allSubset(const std::vector<int>& data)
 //{
 //    //from a set of non duplicate integer
@@ -194,24 +226,25 @@ cycleDetector(const std::vector<int>& data)
 int main()
 {
     ListNode r1(1);
-    ListNode r2(4);
-    ListNode r3(6);
-    ListNode r4(8);
+    ListNode r2(2);
+    ListNode r3(3);
+    ListNode r4(4);
     r1.next = &r2;
     r2.next = &r3;
-    r3.next = &r4;
+   // r3.next = &r4;
 
     ListNode r5(2);
     ListNode r6(3);
     ListNode r7(5);
     ListNode r8(92);
+    //r4.next = &r5;
     r5.next = &r6;
     r6.next = &r7;
     r7.next = &r8;
 
     ListNode* data;
 
-    data = reverseLists(&r1);
+    data = swapPairsLists(&r1);
     int u = 94;
 
     /* std::vector<int> data = { 2,1,9,8,5,4,6,7,3 };
