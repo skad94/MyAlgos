@@ -6,13 +6,13 @@ int maxx(const int& a, const int& b)
 {
 	if (a <= b)
 		return b;
-	else
+	else 
 		return a;
 }
 std::pair<int, int> foo(int a, int b) {
 	return std::make_pair(a + b, a - b);
 }
-std::pair<std::string, int> fun(const std::string& data)
+std::pair<std::string, int> fun(const std::string & data)
 {
 	// case 0 and case 1 to take into account
 	if (data.size() <= 1)
@@ -20,7 +20,7 @@ std::pair<std::string, int> fun(const std::string& data)
 	//int intres = 0;
 	std::string res_memor;
 	int i = 0;
-	while (i < data.size())
+	while(i < data.size())
 	{
 		std::set<char> memor;
 		int intcurr(0);
@@ -39,9 +39,9 @@ std::pair<std::string, int> fun(const std::string& data)
 	return std::make_pair(res_memor, res_memor.size());
 }
 
-/*Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai).
-n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0).
-Find two lines, which together with x-axis forms a container, such that the container contains the most water.
+/*Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). 
+n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). 
+Find two lines, which together with x-axis forms a container, such that the container contains the most water. 
 Note: You may not slant the container and n is at least 2.*/
 int min(int a, int b)
 {
@@ -101,7 +101,7 @@ std::vector<int> mergeSort(const std::vector<int>& data)
 	if (data.size() >= 2)
 	{
 		int nb = data.size();
-		std::vector<int> tmpLow(data.begin(), data.begin() + nb / 2);
+		std::vector<int> tmpLow(data.begin(), data.begin() + nb/2);
 		std::vector<int> tmpUp(data.begin() + nb / 2, data.end());
 		return mergeConcatenate(mergeSort(tmpLow), mergeSort(tmpUp));
 	}
@@ -124,8 +124,8 @@ int maxSumSubArray(const std::vector<int>& data)
 	}
 	return currentMax;
 }
-/*Écrire une fonction C++ qui à partir d’un tableau d’entier data et d’un entier K
-sort le nombre de pair tel que la somme des deux nombres vaut K.
+/*Écrire une fonction C++ qui à partir d’un tableau d’entier data et d’un entier K 
+sort le nombre de pair tel que la somme des deux nombres vaut K. 
 
 data = [0, 6, -1, 3, 2, 3, 4, 1]
 k = 3.
@@ -138,7 +138,7 @@ O(NxLog(N)) opérations
 O(N) en physique. */
 int exoNatixis(std::vector<int> data, const int& K)
 {
-	std::map<size_t, int> storageData;
+	std::map<size_t,int> storageData;
 
 	for (size_t i = 0; i < data.size(); ++i)
 	{
@@ -156,7 +156,7 @@ int exoNatixis(std::vector<int> data, const int& K)
 	}
 	return res;
 }
-std::vector<int>
+std::vector<int> 
 twoSum(std::vector<int>& data, const int& target)
 {
 	// ***** data must be sorted
@@ -179,11 +179,11 @@ twoSum(std::vector<int>& data, const int& target)
 		return std::vector<int>();
 }
 ////
-std::vector<std::vector<int>>
+std::vector<std::vector<int>> 
 threeSum(std::vector<int>& data)
 {
 	//Leetcode 15
-	/*Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0?
+	/*Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? 
 	Find all unique triplets in the array which gives the sum of zero.
 	Notice that the solution set must not contain duplicate triplets
 	*/
@@ -191,7 +191,7 @@ threeSum(std::vector<int>& data)
 	std::vector<std::vector<int>> res;
 	//auto it = data.begin();
 	//for (; it != data.end(); ++it)
-	for (int i = 0; i < data.size(); ++i)
+	for(int i = 0;i<data.size();++i)
 	{
 		//std::vector<int> tmpRes = twoSum(data, -(*it));
 		std::vector<int> tmpRes = twoSum(data, -data[i]);
@@ -202,47 +202,14 @@ threeSum(std::vector<int>& data)
 			res.push_back(tmpTmpRes);
 			//data.erase(it);
 			data.erase(data.begin() + i);
-			if (tmpRes[0] - 1 > 0)
-				data.erase(data.begin() + tmpRes[0] - 1);
+			if(tmpRes[0] - 1 > 0)
+			    data.erase(data.begin() + tmpRes[0] - 1);
 			if (tmpRes[1] - 2 > 0)
-				data.erase(data.begin() + tmpRes[1] - 2);
+      			data.erase(data.begin() + tmpRes[1] - 2);
 		}
 	}
 	return res;
 }
-
-int 
-divide(int dividend, int divisor)
-{
-	/*Given two integers dividend and divisor, divide two integers without using multiplication, division,
- and mod operator. Return the quotient after dividing dividend by divisor.
- The integer division should truncate toward zero, which means losing its fractional part. 
- For example, truncate(8.345) = 8 and truncate(-2.7335) = -2.*/
-	if dividend < divisor
-		return 0;
-	else
-	{
-		int remain = divisor + 1;
-		int quotient = 0;
-		while (remain > divisor)
-		{
-			remain -= divisor;
-			quotient++;
-		}
-		return quotient;
-		//while (remain >= divisor || remain < 0 )
-		//{
-		//	remain = dividend - quotient * divisor;
-		//	if remain >= divisor
-		//		quotient /= 2;
-		//	if remain < 0
-
-		//}
-
-	}
-}
-
-
 /*Given an array of integers data sorted in ascending order, find the starting and ending position of a given target value.
 Your algorithm's runtime complexity must be in the order of O(log n).
 If the target is not found in the array, return [-1, -1].
@@ -317,114 +284,4 @@ void LoggerComposite::log(const std::string& txt)
 	{
 		logo->log(txt);
 	}
-}
-
-bool
-isSubset(const std::vector<int>& nums, const int& target)
-{
-	if (nums.size() == 1)
-	{
-		//targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)] = (nums[0] == target);
-		return (nums[0] == target);
-	}
-	else
-		if (*(nums.end() - 1) == target)
-		{
-			//targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)] = true;
-			return true;
-		}
-		else
-		{
-			std::vector<int> newNums(nums.begin(), nums.end() - 1);
-			auto b1 = isSubset(newNums, target - nums[nums.size() - 1]);
-			auto b2 = isSubset(newNums, target);
-			return (b1 || b2);
-		}
-}
-bool
-findSubsetAddsUp(const std::vector<int>& nums, const int& target)
-{
-	// find subset of number that adds up to target
-	return isSubset(nums, target);
-}
-
-//bool
-//isSubsetMem(const std::vector<int>& nums, const int& target, std::map<string, bool>& targetAndOperation)
-//{
-//	if (targetAndOperation.find(std::to_string(nums.size()) + "-" + std::to_string(target)) != targetAndOperation.end())
-//		return targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)];
-//
-//	if (nums.size() == 1)
-//	{
-//		std::string sizePlusTarget = std::to_string(nums.size()) + "-" + std::to_string(target);
-//		targetAndOperation[sizePlusTarget] = (nums[0] == target);
-//		return (nums[0] == target);
-//	}
-//	else
-//		if (*(nums.end() - 1) == target)
-//		{
-//			targetAndOperation[std::to_string(nums.size()) + "-" + std::to_string(target)] = true;
-//			return true;
-//		}
-//		else
-//		{
-//			std::vector<int> newNums(nums.begin(), nums.end() - 1);
-//			if (!(targetAndOperation.find(std::to_string(nums.size()) + "-" + std::to_string(target)) != targetAndOperation.end()))
-//			{
-//				bool b1 = isSubsetMem(newNums, target - nums[nums.size() - 1], targetAndOperation);
-//				targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target - nums[nums.size() - 1])] = b1;
-//			}
-//			if (!(targetAndOperation.find(std::to_string(nums.size()) + "-" + std::to_string(target)) != targetAndOperation.end()))
-//			{
-//				bool b2 = isSubsetMem(newNums, target, targetAndOperation);
-//				targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target)] = b2;
-//			}
-//			return (targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target - nums[nums.size() - 1])]
-//				|| targetAndOperation[std::to_string(newNums.size()) + "-" + std::to_string(target)]);
-//		}
-//}
-bool
-isSubsetMem(const std::vector<int>& nums, const int& target, std::map<string, bool>& targetAndOperation)//, std::string& Operation)
-{
-	if (targetAndOperation.find(std::to_string(target)) != targetAndOperation.end())
-		return targetAndOperation[std::to_string(target)];
-
-	if (nums.size() == 1)
-	{
-		std::string sizePlusTarget = std::to_string(target);
-		targetAndOperation[sizePlusTarget] = (nums[0] == target);
-		return (nums[0] == target);
-	}
-	else
-		if (*(nums.end() - 1) == target)
-		{
-			targetAndOperation[std::to_string(target)] = true;
-			return true;
-		}
-		else
-		{
-			std::vector<int> newNums(nums.begin(), nums.end() - 1);
-			if (!(targetAndOperation.find(std::to_string(target)) != targetAndOperation.end()))
-			{
-				bool b1 = isSubsetMem(newNums, target - nums[nums.size() - 1], targetAndOperation);
-				targetAndOperation[std::to_string(target - nums[nums.size() - 1])] = b1;
-			}
-			if (!(targetAndOperation.find(std::to_string(target)) != targetAndOperation.end()))
-			{
-				bool b2 = isSubsetMem(newNums, target, targetAndOperation);
-				targetAndOperation[std::to_string(target)] = b2;
-			}
-			return (targetAndOperation[std::to_string(target - nums[nums.size() - 1])]
-				|| targetAndOperation[std::to_string(target)]);
-		}
-}
-
-
-
-bool
-findSubsetAddsUpMem(const std::vector<int>& nums, const int& target)
-{
-	// find subset of number that adds up to target
-	std::map<string, bool> resultMem;
-	return isSubsetMem(nums, target, resultMem);
 }
