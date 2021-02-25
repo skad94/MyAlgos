@@ -24,14 +24,6 @@ divide(int dividend, int divisor)
         quotient++;
     }
     return quotient;
-    //while (remain >= divisor || remain < 0 )
-    //{
-    //	remain = dividend - quotient * divisor;
-    //	if remain >= divisor
-    //		quotient /= 2;
-    //	if remain < 0
-
-    //}
 }
 bool
 isAlreadyThere(const std::vector<int>& data, int val)
@@ -221,40 +213,67 @@ cycleDetector(const std::vector<int>& data)
       return res;
   }
 
-  ListNode* 
-  removeNthFromEnd(ListNode* head, int n) 
-  { /*19. Remove Nth Node From End of List
-    Follow up: Could you do this in one pass? Yes We can!!
-    */
-      ListNode* tmpPlusN = head;
-      int idx = 0;
-      while (tmpPlusN!= 0 && idx < n)
-      {
-          tmpPlusN = tmpPlusN->next;
-          idx++;
-      }
-      ListNode* tmp1 = head;
-      tmpPlusN = tmpPlusN->next;// to be N+1 ahead
-      while (tmpPlusN->next)
-      {
-          tmpPlusN = tmpPlusN->next;
-          tmp1 = tmp1->next;
-      }
-      // tmpPlusN is the last node now
-      // and tmp1 is the (N+1)th node behind
-      tmp1->next = (tmp1->next)->next; // We good because we passed there before no null check needed 
-      return head;
-  }
-//std::vector<std::vector<int>> allSubset(const std::vector<int>& data)
-//{
-//    //from a set of non duplicate integer
-//    // output all the subset
-//    std::vector<std::vector<int>> res;
-//    if (data.size() == 1)
-//    {
-//        std::vector<int> empty;
-//    }
-//}
+ListNode* 
+removeNthFromEnd(ListNode* head, int n) 
+{ /*19. Remove Nth Node From End of List
+  Follow up: Could you do this in one pass? Yes We can!!
+  */
+    ListNode* tmpPlusN = head;
+    int idx = 0;
+    while (tmpPlusN!= 0 && idx < n)
+    {
+        tmpPlusN = tmpPlusN->next;
+        idx++;
+    }
+    ListNode* tmp1 = head;
+    if (tmpPlusN)
+    {
+        tmpPlusN = tmpPlusN->next;// to be N+1 ahead
+    }
+    while (tmpPlusN->next)
+    {
+        tmpPlusN = tmpPlusN->next;
+        tmp1 = tmp1->next;
+    }
+    // tmpPlusN is the last node now
+    // and tmp1 is the (N+1)th node behind
+    ListNode* tmp2 = tmp1->next;
+    tmp1->next = tmp2->next; // We good because we passed there before no null check needed 
+    return head;
+}
+
+std::vector<std::vector<int>> 
+allSubset(const std::vector<int>& data)
+{
+    //from a set of non duplicate integer
+    // output all the subset
+    
+    std::vector<std::vector<int>> res;
+    res.push_back(std::vector<int>()); // initialization: need to add
+    if (data.size() == 0)
+    {
+        return res;
+    }
+    if (data.size() == 1)
+    {
+        res.push_back(data);
+        return res;
+    }
+    for (int idx = 0; idx < data.size(); ++idx)
+    {
+        //auto iterPdeE = res.begin();
+        //while (iterPdeE != res.end())
+        int resSizeBeforeChange = res.size();
+        for(int idxRes = 0;idxRes< resSizeBeforeChange;++idxRes)
+        {
+            std::vector<int> tmpRes(res[idxRes]);
+            tmpRes.push_back(data[idx]);
+            res.push_back(tmpRes);
+            //++iterPdeE;
+        }
+    }
+    return res;
+}
   int myGlobal;
   int& foo()
   {
@@ -262,6 +281,7 @@ cycleDetector(const std::vector<int>& data)
   }
 int main()
 {
+    
     /* std::vector<int> data = { 2,1,9,8,5,4,6,7,3 };
     auto res = cycleDetector(data);*/
 
@@ -305,7 +325,8 @@ int main()
     std::vector<double> z2 = a.BS_Simul_milstein(50,b);
     std::vector<double> z22 = a.BS_Simul_milstein(19,b);
     */
-
+    std::vector<int> data = { 1,2,3,4 };
+    auto ss = allSubset(data);
 
 
     ListNode r1(1);
@@ -327,13 +348,14 @@ int main()
     r7.next = &r8;
     r8.next = &r9;
 
-    ListNode* data;
+    {ListNode* data;
 
     data = removeNthFromEnd(&r1, 3);
+    }
     int u = 94;
     //tt->display();
  	//std::cin.get();
-	return 94;
+	return 13;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
