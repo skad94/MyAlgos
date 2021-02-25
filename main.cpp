@@ -24,14 +24,6 @@ divide(int dividend, int divisor)
         quotient++;
     }
     return quotient;
-    //while (remain >= divisor || remain < 0 )
-    //{
-    //	remain = dividend - quotient * divisor;
-    //	if remain >= divisor
-    //		quotient /= 2;
-    //	if remain < 0
-
-    //}
 }
 bool
 isAlreadyThere(const std::vector<int>& data, int val)
@@ -221,47 +213,157 @@ cycleDetector(const std::vector<int>& data)
       return res;
   }
 
-  ListNode* 
-  removeNthFromEnd(ListNode* head, int n) 
-  { /*19. Remove Nth Node From End of List
-    Follow up: Could you do this in one pass? Yes We can!!
-    */
-      ListNode* tmpPlusN = head;
-      int idx = 0;
-      while (tmpPlusN!= 0 && idx < n)
-      {
-          tmpPlusN = tmpPlusN->next;
-          idx++;
-      }
-      ListNode* tmp1 = head;
-      tmpPlusN = tmpPlusN->next;// to be N+1 ahead
-      while (tmpPlusN->next)
-      {
-          tmpPlusN = tmpPlusN->next;
-          tmp1 = tmp1->next;
-      }
-      // tmpPlusN is the last node now
-      // and tmp1 is the (N+1)th node behind
-      tmp1->next = (tmp1->next)->next; // We good because we passed there before no null check needed 
-      return head;
-  }
-//std::vector<std::vector<int>> allSubset(const std::vector<int>& data)
-//{
-//    //from a set of non duplicate integer
-//    // output all the subset
-//    std::vector<std::vector<int>> res;
-//    if (data.size() == 1)
-//    {
-//        std::vector<int> empty;
-//    }
-//}
+ListNode* 
+removeNthFromEnd(ListNode* head, int n) 
+{ /*19. Remove Nth Node From End of List
+  Follow up: Could you do this in one pass? Yes We can!!
+  */
+    ListNode* tmpPlusN = head;
+    int idx = 0;
+    while (tmpPlusN!= 0 && idx < n)
+    {
+        tmpPlusN = tmpPlusN->next;
+        idx++;
+    }
+    ListNode* tmp1 = head;
+    if (tmpPlusN)
+    {
+        tmpPlusN = tmpPlusN->next;// to be N+1 ahead
+    }
+    while (tmpPlusN->next)
+    {
+        tmpPlusN = tmpPlusN->next;
+        tmp1 = tmp1->next;
+    }
+    // tmpPlusN is the last node now
+    // and tmp1 is the (N+1)th node behind
+    ListNode* tmp2 = tmp1->next;
+    tmp1->next = tmp2->next; // We good because we passed there before no null check needed 
+    return head;
+}
+
+std::vector<std::vector<int>> 
+allSubset(const std::vector<int>& data)
+{
+    //from a set of non duplicate integer
+    // output all the subset
+    
+    std::vector<std::vector<int>> res;
+    res.push_back(std::vector<int>()); // initialization: need to add
+    if (data.size() == 0)
+    {
+        return res;
+    }
+    if (data.size() == 1)
+    {
+        res.push_back(data);
+        return res;
+    }
+    for (int idx = 0; idx < data.size(); ++idx)
+    {
+        //auto iterPdeE = res.begin();
+        //while (iterPdeE != res.end())
+        int resSizeBeforeChange = res.size();
+        for(int idxRes = 0;idxRes< resSizeBeforeChange;++idxRes)
+        {
+            std::vector<int> tmpRes(res[idxRes]);
+            tmpRes.push_back(data[idx]);
+            res.push_back(tmpRes);
+            //++iterPdeE;
+        }
+    }
+    return res;
+}
   int myGlobal;
   int& foo()
   {
       return myGlobal;
   }
+  /*void
+      affiche(std::vector<int> data)
+  {
+      for (int i = 0; i < data.size(); ++i)
+          std::cout << data[i] << " - ";
+      std::cout << std::endl;
+  }*/
+void 
+placeBien(std::vector<int> data, int pivot, int begin, int end)
+{
+    // I put pivot at beginning
+    int compteur = begin;
+    int val2Swap = data[pivot];
+    data[pivot] = data[compteur];
+    data[compteur] = val2Swap;
+    for (int i = begin; i < end; ++i)
+    {
+        if (data[i] < data[pivot])
+        {
+            val2Swap = data[i];
+            data.erase(data.begin() + i);
+            data.insert(data.begin(), val2Swap);
+        }
+    }
+}
+void 
+skuickSort(std::vector<int> data, int begin, int end)
+{
+    // check in all kind
+    if (end <= begin)
+        return;
+    int pivot = (end - begin) / 2;
+    placeBien(data,pivot,0,data.size());
+    while (pivot != end && pivot != begin)
+    {
+        skuickSort(data, begin, pivot);
+        skuickSort(data, pivot, end);
+        pivot = pivot;
+    }
+}
+std::vector<std::string> filter_words(const std::vector<std::string>& words, const std::string& letters)
+{
+    // *** from an input list of words an several letters 
+    // *** we need to output every word containing at least one of the letter in letters
+
+    std::vector<std::string> res;
+    // First loop on every word
+    auto itw = words.begin();
+    for (; itw != words.end(); ++itw)
+    {
+        // then loop on every letter ititw of this particular word itw
+        // to look for any of the particular letter itl contained in Lettrs
+        auto ititw = itw->begin();
+        bool isContained = false;
+        while (ititw != itw->end() && !isContained)
+        {
+            int i = 0;
+            while (letters[i] != *ititw && i< letters.size())
+            {
+                i++;
+            }
+            ++ititw;
+            if (i < letters.size())
+            {
+                res.push_back(*itw);
+                isContained = true;
+            }
+        }
+    }
+    return res;
+}
+
 int main()
 {
+    std::vector<std::string> w1 = { "tata", "toto", "brbr", "yuyu", "aoao", "rdrd", "yioyih" };
+    affiche(filter_words(w1, "ao"));
+    std::cout << "fin\n";
+    //std::vector<int> data = { 2,1,9,8,5,4,6,7,3 };
+    //std::vector<int>* ptrData = &data;
+    //std::cout << "sorted data\n";
+    //affiche(data);
+    //skuickSort(data, 0, data.size());
+    //std::cout << "sorted data\n";
+    //affiche(data);
+    //{int rr = 0; }
     /* std::vector<int> data = { 2,1,9,8,5,4,6,7,3 };
     auto res = cycleDetector(data);*/
 
@@ -306,8 +408,6 @@ int main()
     std::vector<double> z22 = a.BS_Simul_milstein(19,b);
     */
 
-
-
     ListNode r1(1);
     ListNode r2(2);
     ListNode r3(3);
@@ -327,13 +427,14 @@ int main()
     r7.next = &r8;
     r8.next = &r9;
 
-    ListNode* data;
+    {ListNode* data;
 
     data = removeNthFromEnd(&r1, 3);
+    }
     int u = 94;
     //tt->display();
  	//std::cin.get();
-	return 94;
+	return 13;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
