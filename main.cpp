@@ -1,4 +1,4 @@
-// classiqueTraining.cpp : This file contains the 'main' function. Program execution begins and ends there.
+ï»¿// classiqueTraining.cpp : This file contains the 'main' function. Program execution begins and ends there.
 #include"test.h"
 #include "..\simulation\Simulation.h"
 #include "..\algos\linkedList.h"
@@ -125,7 +125,7 @@ cycleDetector(const std::vector<int>& data)
           tmp->next = l1;
       else
       {
-          std::cout << " returné 0 " << std::endl;
+          std::cout << " returnï¿½ 0 " << std::endl;
           return 0;
       }
       return res;
